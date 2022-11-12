@@ -3,8 +3,9 @@
 #
 # C compiler and options for Intel
 #
-CC=     icc -O3 -qopenmp -std=c99
-LIB=    -lm
+# CC=     icc -O3 -qopenmp -std=c99
+CC=     gcc -O3 -Xpreprocessor -fopenmp
+LIB=    -lm -lomp
 
 #
 # C compiler and options for GNU 

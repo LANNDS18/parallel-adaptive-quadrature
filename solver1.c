@@ -53,11 +53,13 @@ double simpson(double (*func)(double), struct Interval interval)
 	 i2.tol = interval.tol; 
 	 i2.f_left = interval.f_mid; 
 	 i2.f_mid = fe; 
-	 i2.f_right = interval.f_right; 
-	  
-	 quad1 = simpson(func, i1);  
-	 quad2 = simpson(func, i2);  
+	 i2.f_right = interval.f_right;
 
+#pragma omp task default(none) shared(quad1, func) firstprivate(i1)
+	 quad1 = simpson(func, i1);
+#pragma omp task default(none) shared(quad2, func) firstprivate(i2)
+	 quad2 = simpson(func, i2);  
+#pragma omp taskwait
 	 return quad1 + quad2; 
       } 
 }
@@ -78,8 +80,12 @@ int main(void)
     whole.f_right = func1(whole.right); 
     whole.f_mid = func1((whole.left+whole.right)/2.0); 
 
-//  Call recursive quadrature routine
-    quad = simpson(func1, whole); 
+#pragma omp parallel default(none) shared(quad) firstprivate(whole)
+{
+    #pragma omp master
+    //  Call recursive quadrature routine
+    quad = simpson(func1, whole);
+}
 
     double time = omp_get_wtime() - start; 
 
