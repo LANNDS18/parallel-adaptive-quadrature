@@ -98,16 +98,17 @@ double simpson(double (*func)(double), struct Queue *queue_p)
 
     // keep working until queue is empty
 
-    int stop = 0;
     int working = 0;
     int queue_size = size(queue_p);
     int t_working, t_size;
 
-#pragma omp parallel default(none) shared(queue_p, func, stop, working, queue_size) private(t_working, t_size) reduction(+:quad)
+#pragma omp parallel default(none) shared(queue_p, func, working, queue_size) private(t_working, t_size) reduction(+:quad)
     {
-
-        t_size = queue_size;
-        t_working = working;
+#pragma omp critical
+        {
+            t_size = queue_size;
+            t_working = working;
+        }
 
         while (t_size != 0 || t_working != 0)
         {
@@ -130,7 +131,8 @@ double simpson(double (*func)(double), struct Queue *queue_p)
                 t_size = size(queue_p);
                 t_working = working;
             }
-            if (continue_flag == 0) continue;
+            if (continue_flag == 0)
+                continue;
 
             double h = interval.right - interval.left;
             double c = (interval.left + interval.right) / 2.0;
