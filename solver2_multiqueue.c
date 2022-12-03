@@ -6,7 +6,6 @@
 
 #define MAXQUEUE 10000
 
-
 struct Interval
 {
     double left;    // left boundary
@@ -86,14 +85,16 @@ double simpson(double (*func)(double), struct Queue *queue_p)
 {
     double quad = 0.0;
 
-    int num_active = 0;            // number of active threads
-    int t_num_active;              // thread copy for num_active
-    int is_active = 0;             // bool, determine whether the thread is active
+    int num_active = 0;   // number of active threads
+    int t_num_active;     // thread copy for num_active
+    int is_active = 0;    // bool, determine whether the thread is active
+    struct Queue t_queue; // thread private queue
 
-#pragma omp parallel default(none) shared(queue_p, func, num_active) private(t_num_active) firstprivate(is_active) reduction(+:quad)
+#pragma omp parallel default(none) shared(queue_p, func, num_active) firstprivate(t_num_active, is_active) private(t_queue) reduction(+:quad)
     {
-        
-        t_num_active = omp_get_num_threads(); 
+
+        init(&t_queue);                       // Initialize thread private queue
+        t_num_active = omp_get_num_threads(); // Initialize all threads to active before while loop
 
         while (t_num_active != 0)
         {
@@ -101,26 +102,36 @@ double simpson(double (*func)(double), struct Queue *queue_p)
             // Now evaluate function at one-qurter and three-quarter points
             struct Interval interval;
 
-#pragma omp critical
+            // Non-synchronization, access private queue
+            if (!isempty(&t_queue))
             {
-                if (!isempty(queue_p))
+                interval = dequeue(&t_queue);
+                t_num_active = num_active; // copy current num_active
+            }
+            else
+            {
+#pragma omp critical
                 {
-                    if (!is_active) // set the status of current thread to active
+                    if (!isempty(queue_p))
                     {
-                        is_active = 1;
-                        num_active++;
+                        if (!is_active) // set thread to active
+                        {
+                            is_active = 1;
+                            num_active++;
+                        }
+                        interval = dequeue(queue_p);
                     }
-                    interval = dequeue(queue_p);
+                    else if (is_active) // in-activate thread
+                    {
+
+                        is_active = 0;
+                        num_active--;
+                    }
+                    t_num_active = num_active;
                 }
-                else if (is_active) // de-active the status current thread
-                {
-                    is_active = 0;
-                    num_active--;
-                }
-                t_num_active = num_active;
             }
 
-            if (!is_active)
+            if (!is_active) // skip one step because there's no interval available
                 continue;
 
             double h = interval.right - interval.left;
@@ -158,10 +169,22 @@ double simpson(double (*func)(double), struct Queue *queue_p)
                 i2.f_mid = fe;
                 i2.f_right = interval.f_right;
 
-#pragma omp critical
+                /*
+                 * enqueue intervals to shared queue if there are any non-active thread
+                 * Otherwise enqueue to the private queue in each thread
+                 */
+                if (omp_get_num_threads() - t_num_active > 0)
                 {
-                    enqueue(i1, queue_p);
-                    enqueue(i2, queue_p);
+#pragma omp critical
+                    {
+                        enqueue(i1, queue_p);
+                        enqueue(i2, queue_p);
+                    }
+                }
+                else
+                {
+                    enqueue(i1, &t_queue);
+                    enqueue(i2, &t_queue);
                 }
             }
         }

@@ -1,0 +1,116 @@
+
+simple parallel solver 1
+Number of Thread: 1
+Result = 6.019096e-03
+Time(s) = 23.150892
+Number of Thread: 2
+Result = 6.019096e-03
+Time(s) = 13.873752
+Number of Thread: 4
+Result = 6.019096e-03
+Time(s) = 10.640891
+Number of Thread: 6
+Result = 6.019096e-03
+Time(s) = 7.606639
+Number of Thread: 8
+Result = 6.019096e-03
+Time(s) = 7.507439
+Number of Thread: 12
+Result = 6.019096e-03
+Time(s) = 5.342423
+Number of Thread: 16
+Result = 6.019096e-03
+Time(s) = 5.488682
+Number of Thread: 24
+Result = 6.019096e-03
+Time(s) = 9.060054
+Number of Thread: 32
+Result = 6.019096e-03
+Time(s) = 10.597783
+
+parallel solver 1 with limit depth
+Number of Thread: 1
+Result = 6.019096e-03
+Time(s) = 22.905962
+Number of Thread: 2
+Result = 6.019096e-03
+Time(s) = 12.220470
+Number of Thread: 4
+Result = 6.019096e-03
+Time(s) = 9.194126
+Number of Thread: 6
+Result = 6.019096e-03
+Time(s) = 6.292211
+Number of Thread: 8
+Result = 6.019096e-03
+Time(s) = 6.340516
+Number of Thread: 12
+Result = 6.019096e-03
+Time(s) = 4.167669
+Number of Thread: 16
+Result = 6.019096e-03
+Time(s) = 3.343404
+Number of Thread: 24
+Result = 6.019096e-03
+Time(s) = 2.281757
+Number of Thread: 32
+Result = 6.019096e-03
+Time(s) = 1.678757
+
+simple parallel solver 2
+Number of Thread: 1
+Result = 6.019096e-03
+Time(s) = 24.760328
+Number of Thread: 2
+Result = 6.019096e-03
+Time(s) = 12.449000
+Number of Thread: 4
+Result = 6.019096e-03
+Time(s) = 6.658884
+Number of Thread: 6
+Result = 6.019096e-03
+Time(s) = 4.663661
+Number of Thread: 8
+Result = 6.019096e-03
+Time(s) = 3.689182
+Number of Thread: 12
+Result = 6.019096e-03
+Time(s) = 2.629900
+Number of Thread: 16
+Result = 6.019096e-03
+Time(s) = 2.592909
+Number of Thread: 24
+Result = 6.019096e-03
+Time(s) = 3.359048
+Number of Thread: 32
+Result = 6.019096e-03
+Time(s) = 4.160556
+
+parallel solver 2 optimized with Multiple Queue
+Number of Thread: 1
+Result = 6.019096e-03
+Time(s) = 22.757997
+Number of Thread: 2
+Result = 6.019096e-03
+Time(s) = 11.758735
+Number of Thread: 4
+Result = 6.019096e-03
+Time(s) = 6.230334
+Number of Thread: 6
+Result = 6.019096e-03
+Time(s) = 4.425447
+Number of Thread: 8
+Result = 6.019096e-03
+Time(s) = 3.388988
+Number of Thread: 12
+Result = 6.019096e-03
+Time(s) = 2.356052
+Number of Thread: 16
+Result = 6.019096e-03
+Time(s) = 1.798890
+Number of Thread: 24
+Result = 6.019096e-03
+Time(s) = 1.209877
+Number of Thread: 32
+Result = 6.019096e-03
+Time(s) = 0.909581

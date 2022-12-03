@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include "function.h"
 
+#define MAX_LEVEL 16 // The largest recursion depth for tasks tree construct
+
 struct Interval
 {
     double left;    // left boundary
@@ -13,9 +15,10 @@ struct Interval
     double f_right; // function value at right boundary
 };
 
-double simpson(double (*func)(double), struct Interval interval)
+double simpson(double (*func)(double), struct Interval interval, int depth)
 {
 
+    depth++;
 
     // Already have function evaluations at each end of the interval and in the middle
     // Now get function values at one-quarter and three-quarter points
@@ -55,14 +58,11 @@ double simpson(double (*func)(double), struct Interval interval)
         i2.f_mid = fe;
         i2.f_right = interval.f_right;
 
-
-// Task construction, create child tasks.
-#pragma omp task default(none) shared(quad1, func) firstprivate(i1)
-        quad1 = simpson(func, i1);
-#pragma omp task default(none) shared(quad2, func) firstprivate(i2)
-        quad2 = simpson(func, i2);
-
-// Sychornization
+// Task construction,  stop creating child task when depth exceed MAX_LEVEL
+#pragma omp task default(none) shared(quad1, func) firstprivate(i1, depth) if (depth < MAX_LEVEL)
+        quad1 = simpson(func, i1, depth);
+#pragma omp task default(none) shared(quad2, func) firstprivate(i2, depth) if (depth < MAX_LEVEL)
+        quad2 = simpson(func, i2, depth);
 #pragma omp taskwait
         return quad1 + quad2;
     }
@@ -74,6 +74,8 @@ int main(void)
     struct Interval whole;
     double quad;
 
+    int depth = 0; // omp variables for determine the depth of recursion
+
     double start = omp_get_wtime();
 
     // Create initial interval
@@ -84,11 +86,11 @@ int main(void)
     whole.f_right = func1(whole.right);
     whole.f_mid = func1((whole.left + whole.right) / 2.0);
 
-#pragma omp parallel default(none) shared(quad) firstprivate(whole)
+#pragma omp parallel default(none) shared(quad) firstprivate(whole, depth)
     {
 #pragma omp master
         //  Call recursive quadrature routine
-        quad = simpson(func1, whole);
+        quad = simpson(func1, whole, depth);
     }
 
     double time = omp_get_wtime() - start;

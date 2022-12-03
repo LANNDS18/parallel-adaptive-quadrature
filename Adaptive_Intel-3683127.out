@@ -1,0 +1,118 @@
+Loading intel-20.4/compilers
+  Loading requirement: intel-license gcc/8.2.0 intel-20.4/cc intel-20.4/fc
+
+simple parallel solver 1
+Number of Thread: 1
+Result = 6.019096e-03
+Time(s) = 24.901819
+Number of Thread: 2
+Result = 6.019096e-03
+Time(s) = 12.459255
+Number of Thread: 4
+Result = 6.019096e-03
+Time(s) = 6.649182
+Number of Thread: 6
+Result = 6.019096e-03
+Time(s) = 4.600291
+Number of Thread: 8
+Result = 6.019096e-03
+Time(s) = 3.628087
+Number of Thread: 12
+Result = 6.019096e-03
+Time(s) = 2.503260
+Number of Thread: 16
+Result = 6.019096e-03
+Time(s) = 1.883540
+Number of Thread: 24
+Result = 6.019096e-03
+Time(s) = 1.281423
+Number of Thread: 32
+Result = 6.019096e-03
+Time(s) = 0.970850
+
+parallel solver 1 with limit depth
+Number of Thread: 1
+Result = 6.019096e-03
+Time(s) = 24.790570
+Number of Thread: 2
+Result = 6.019096e-03
+Time(s) = 12.024130
+Number of Thread: 4
+Result = 6.019096e-03
+Time(s) = 6.394684
+Number of Thread: 6
+Result = 6.019096e-03
+Time(s) = 4.489975
+Number of Thread: 8
+Result = 6.019096e-03
+Time(s) = 3.473246
+Number of Thread: 12
+Result = 6.019096e-03
+Time(s) = 2.397436
+Number of Thread: 16
+Result = 6.019096e-03
+Time(s) = 1.813706
+Number of Thread: 24
+Result = 6.019096e-03
+Time(s) = 1.226633
+Number of Thread: 32
+Result = 6.019096e-03
+Time(s) = 0.936741
+
+simple parallel solver 2
+Number of Thread: 1
+Result = 6.019096e-03
+Time(s) = 24.777267
+Number of Thread: 2
+Result = 6.019096e-03
+Time(s) = 12.961974
+Number of Thread: 4
+Result = 6.019096e-03
+Time(s) = 6.877661
+Number of Thread: 6
+Result = 6.019096e-03
+Time(s) = 4.938375
+Number of Thread: 8
+Result = 6.019096e-03
+Time(s) = 3.928192
+Number of Thread: 12
+Result = 6.019096e-03
+Time(s) = 3.091810
+Number of Thread: 16
+Result = 6.019096e-03
+Time(s) = 2.598413
+Number of Thread: 24
+Result = 6.019096e-03
+Time(s) = 2.349934
+Number of Thread: 32
+Result = 6.019096e-03
+Time(s) = 2.887500
+
+parallel solver 2 optimized with Multiple Queue
+Number of Thread: 1
+Result = 6.019096e-03
+Time(s) = 24.543689
+Number of Thread: 2
+Result = 6.019096e-03
+Time(s) = 11.849955
+Number of Thread: 4
+Result = 6.019096e-03
+Time(s) = 6.198501
+Number of Thread: 6
+Result = 6.019096e-03
+Time(s) = 4.366236
+Number of Thread: 8
+Result = 6.019096e-03
+Time(s) = 3.418777
+Number of Thread: 12
+Result = 6.019096e-03
+Time(s) = 2.368511
+Number of Thread: 16
+Result = 6.019096e-03
+Time(s) = 1.799325
+Number of Thread: 24
+Result = 6.019096e-03
+Time(s) = 1.210759
+Number of Thread: 32
+Result = 6.019096e-03
+Time(s) = 0.934474
